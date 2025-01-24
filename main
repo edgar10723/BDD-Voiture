@@ -36,7 +36,22 @@ classement = {attribut}
 
 #!
 
-def add_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+def add_voiture (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+    nom = input("Nom de la voiture: ")
+    transmission = 
+    puissance = float(input("Entrer la puissance du vehicule: "))
+    kpl = float(input("Entrer le KPL(kilometre par littre: "))
+    reservoir = float(input("Entrer le KPL(kilometre par littre: "))
+    engin = input("Type d'engin")
+    annee = float(input("Entrer le KPL(kilometre par littre: "))
+    marque = input("Nom de la marque")
+    type = 
+    sieges = float(input("Entrer le KPL(kilometre par littre: "))
+    espace = float(input("Entrer le KPL(kilometre par littre: "))
+    prix_utilise = float(input("Entrer le KPL(kilometre par littre: "))
+    prix_nouveau = float(input("Entrer le KPL(kilometre par littre: "))
+
+
     cursor.execute('''
     INSERT INTO voiture VALUES()
     ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
