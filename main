@@ -48,3 +48,9 @@ def update_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	m
     ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
     conn.commit()
 
+def delete_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+    cursor.execute('''
+    DELETE FROM voiture VALUES()
+    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
+    conn.commit()
+
