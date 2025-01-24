@@ -3,6 +3,14 @@ import sqlite3
 conn = sqlite3.connect('BDD_Voiture.db')
 cursor = conn.cursor()
 
+def lien_fichier(db_file):
+    try:
+        connection = sqlite3.connect(db_file)
+        cursor = connection.cursor()
+        print("Connection to the database established.")
+
+if __name__ == "__main__":
+    lien_fichier('Voiture.db')
 
 #REQUETE
 
