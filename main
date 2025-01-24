@@ -3,3 +3,46 @@ import sqlite3
 conn = sqlite3.connect('BDD_Voiture.db')
 cursor = conn.cursor()
 
+
+#REQUETE
+
+cursor.execute('''
+SELECT * FROM voitures
+WHERE nom = {attribut}) 
+AND transmission = {attribut}) 
+AND puissance BETWEEN {value} AND {value} 
+AND kpl BETWEEN {value} AND {value}
+AND
+reservoir BETWEEN {value} AND {value}
+AND
+engin = {attribut}
+AND
+annee BETWEEN {value} AND {value}
+AND
+marque {attribut}
+AND
+type {attribut}
+AND
+siege {attribut}
+AND
+espace BETWEEN {value} AND {value}
+AND
+prix_utilise BETWEEN {value} AND {value}
+AND
+prix_nouveau BETWEEN {value} AND {value}
+AND
+classement = {attribut}
+''')
+
+#!
+
+def add_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+    cursor.execute('''
+    INSERT INTO voiture VALUES()
+    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
+    conn.commit()
+
+def update_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+  cursor.execute('''
+  UPDATE INTO voiture VALUES()
+
