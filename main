@@ -43,6 +43,8 @@ def add_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marq
     conn.commit()
 
 def update_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
-  cursor.execute('''
-  UPDATE INTO voiture VALUES()
+    cursor.execute('''
+    UPDATE INTO voiture VALUES()
+    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
+    conn.commit()
 
