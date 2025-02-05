@@ -12,8 +12,10 @@ def lien_fichier(db_file):
 if __name__ == "__main__":
     lien_fichier('Voiture.db')
 
-#REQUETE
+#REQUETE------------------------------------------------------------------------------------------------------------------------------------
 
+
+#FILTRE
 cursor.execute('''
 SELECT * FROM voitures
 WHERE nom = {attribut}) 
@@ -42,9 +44,9 @@ AND
 classement = {attribut}
 ''')
 
-#!
+#REQUETE UTILISATEUR
 
-def add_voiture (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+def add_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
     nom = input("Nom de la voiture: ")
     transmission = 
     puissance = float(input("Entrer la puissance du vehicule: "))
@@ -77,3 +79,43 @@ def delete_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	m
     ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
     conn.commit()
 
+
+
+
+#MAIN------------------------------------------------------------------------------------------------------------------------
+
+
+def main():
+    if lien_fichier('BDD_Voiture.db') = True
+        print("Menu:")
+        print("1 Afficher les voitures")
+        print("2 Filtrer les voitures")
+        print("3 Ajouter une voiture")
+        print("4 Mettre à jour une voiture")
+        print("5 Supprimer une voiture")
+        print("6 Quitter")
+        option = input("Choisissez une option: ")
+        if option == '1':
+            afficher_voitures()
+        if option == '2':
+            filtre_voitures()
+        if option == '3':
+            add_voitures()
+        if option == '4':
+            update_voitures()
+        if option == '5':
+            delete_voitures()
+        if option == '6':
+            exit()
+        else:
+            print("Erreur")
+            
+       
+
+def afficher_voitures():
+    cursor.execute("SELECT voiture FROM voitures")
+    voiture = cursor.fetchall()
+    print(voitures)
+
+
+def add_voitureINT(
