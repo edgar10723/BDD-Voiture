@@ -118,4 +118,18 @@ def afficher_voitures():
     print(voitures)
 
 
-def add_voitureINT(
+def filtre():
+nom = input("Filtrer par nom [vide pour ignorer]: ") 
+transmission = input("Filtrer par transmission [vide pour ignorer]: ")  #cm
+puissance = input("Filtrer par nom [vide pour ignorer]: ") #cm
+kpl = input("Filtrer par nom [vide pour ignorer]: ") #cm
+reservoir = input("Filtrer par nom [vide pour ignorer]: ") #cm
+engin = input("Filtrer par nom [vide pour ignorer]: ") #cm
+annee = input("Filtrer par nom [vide pour ignorer]: ") 
+marque = input("Filtrer par nom [vide pour ignorer]: ") 
+type = input("Filtrer par nom [vide pour ignorer]: ") 
+siege = input("Filtrer par nom [vide pour ignorer]: ") 
+espace = input("Filtrer par nom [vide pour ignorer]: ") 
+prix_utilise = input("Filtrer par nom [vide pour ignorer]: ") 
+prix_nouveau = input("Filtrer par nom [vide pour ignorer]: ") 
+classement = 
