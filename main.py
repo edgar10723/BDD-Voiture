@@ -114,13 +114,13 @@ def main():
         if option == '1':
             afficher_voitures()
         if option == '2':
-            filtre_voitures()
+            select_voitures()
         if option == '3':
-            add_voitures()
+            insert_voitures()
         if option == '4':
-            update_voitures()
+            update_donne()
         if option == '5':
-            delete_voitures()
+            rm_voitures()
         if option == '6':
             exit()
         else:
