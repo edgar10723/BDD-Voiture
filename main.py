@@ -42,7 +42,9 @@ def insert_voiture(voiture):
 
 def rm_voiture(voiture):
     with conn:
-        cursor.execute
+        cursor.execute("DELETE FROM voitures WHERE nom = :nom", {
+            'nom': voiture.nom
+        })
 
 
 
