@@ -128,7 +128,6 @@ def main():
             
        
 
-
 def filtre():
 nom = input("Filtrer par nom [vide pour ignorer]: ") 
 transmission = input("Filtrer par transmission [vide pour ignorer]: ")  #cm
@@ -159,7 +158,7 @@ classement = pass
 
 
 
-#OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION 
+'''OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION 
 
 
 #FILTRE
