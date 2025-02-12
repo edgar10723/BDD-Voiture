@@ -13,6 +13,58 @@ if __name__ == "__main__":
     lien_fichier('Voiture.db')
 
 #REQUETE------------------------------------------------------------------------------------------------------------------------------------
+#LIST DE V
+id_voiture_1 = Voiture('Ford Mustang', 'RWD', 450, 10, 60, 'Petrol', 2022, 'Ford', 'Coupe', 4, 300, 70000, 120000)
+
+
+#INSERT
+
+def insert_voiture(voiture):
+  with conn: #for insert, update, remove use with conn:
+    cursor.execute("INSERT INTO voitures VALUES (:nom,	:transmission,	:puissance,	:kpl,	:reservoir,	:engin,	:annee,	:marque,	:type,	:sieges,	:espace,	:prix_utlise,	:prix_nouveau)",  {
+    'nom': voiture.nom,
+    'transmission': voiture.transmission,
+    'puissance': voiture.puissance,
+    'kpl': voiture.kpl,
+    'reservoir': voiture.reservoir,
+    'engin': voiture.engin,
+    'annee': voiture.annee,
+    'marque': voiture.marque,
+    'type': voiture.type,
+    'sieges': voiture.sieges,
+    'espace': voiture.espace,
+    'prix_utlise': voiture.prix_utlise,
+    'prix_nouveau': voiture.prix_nouveau
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION OLD VERSION 
 
 
 #FILTRE
