@@ -38,8 +38,11 @@ def insert_voiture(voiture):
 })
 
 
+#SUPPRIMER
 
-
+def rm_voiture(voiture):
+    with conn:
+        cursor.execute
 
 
 
