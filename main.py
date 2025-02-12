@@ -9,7 +9,7 @@ def lien_fichier(db_file):
         cursor = connection.cursor()
         print("Connection to the database established.")
 
-if __name__ == "__main__":
+if __name__ == "__main.py__":
     lien_fichier('Voiture.db')
 
 #REQUETE------------------------------------------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ def afficher_voitures():
 
 def insert_voiture(voiture):
   with conn: #for insert, update, remove use with conn:
-    cursor.execute("INSERT INTO voitures VALUES (:nom,	:transmission,	:puissance,	:kpl,	:reservoir,	:engin,	:annee,	:marque,	:type,	:sieges,	:espace,	:prix_utlise,	:prix_nouveau)",  {
+    cursor.execute("INSERT INTO voitures VALUES (:nom,	:transmission,	:puissance,	:kpl,	:reservoir,	:engin,	:annee,	:marque,	:typev,	:sieges,	:espace,	:prix_utlise,	:prix_nouveau)",  {
     'nom': voiture.nom,
     'transmission': voiture.transmission,
     'puissance': voiture.puissance,
@@ -42,7 +42,7 @@ def insert_voiture(voiture):
     'engin': voiture.engin,
     'annee': voiture.annee,
     'marque': voiture.marque,
-    'type': voiture.type,
+    'typev': voiture.typev,
     'sieges': voiture.sieges,
     'espace': voiture.espace,
     'prix_utlise': voiture.prix_utlise,
@@ -63,7 +63,7 @@ def update_donne(voiture):
     with conn:
         cursor.execute('''
     UPDATE INTO voiture VALUES()
-    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
+    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	typev,	sieges,	espace,	prix_utlise,	prix_nouveau))
     conn.commit()
 
 
@@ -83,7 +83,7 @@ def select_voiture(voiture):
     AND
     marque {attribut}
     AND
-    type {attribut}
+    typev {attribut}
     AND
     siege {attribut}
     AND
@@ -138,12 +138,12 @@ reservoir = input("Filtrer par nom [vide pour ignorer]: ") #cm
 engin = input("Filtrer par nom [vide pour ignorer]: ") #cm
 annee = input("Filtrer par nom [vide pour ignorer]: ") 
 marque = input("Filtrer par nom [vide pour ignorer]: ") 
-type = input("Filtrer par nom [vide pour ignorer]: ") 
+typev = input("Filtrer par nom [vide pour ignorer]: ") 
 siege = input("Filtrer par nom [vide pour ignorer]: ") 
 espace = input("Filtrer par nom [vide pour ignorer]: ") 
 prix_utilise = input("Filtrer par nom [vide pour ignorer]: ") 
 prix_nouveau = input("Filtrer par nom [vide pour ignorer]: ") 
-classement = 
+classement = pass
 
 
 
@@ -178,7 +178,7 @@ annee BETWEEN {value} AND {value}
 AND
 marque {attribut}
 AND
-type {attribut}
+typev {attribut}
 AND
 siege {attribut}
 AND
@@ -193,16 +193,16 @@ classement = {attribut}
 
 #REQUETE UTILISATEUR
 
-def add_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+def add_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	typev,	sieges,	espace,	prix_utlise,	prix_nouveau):
     nom = input("Nom de la voiture: ")
     transmission = 
     puissance = float(input("Entrer la puissance du vehicule: "))
     kpl = float(input("Entrer le KPL(kilometre par littre: "))
     reservoir = float(input("Entrer le KPL(kilometre par littre: "))
-    engin = input("Type d'engin")
+    engin = input("typev d'engin")
     annee = float(input("Entrer le KPL(kilometre par littre: "))
     marque = input("Nom de la marque")
-    type = 
+    typev = 
     sieges = float(input("Entrer le KPL(kilometre par littre: "))
     espace = float(input("Entrer le KPL(kilometre par littre: "))
     prix_utilise = float(input("Entrer le KPL(kilometre par littre: "))
@@ -211,19 +211,19 @@ def add_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marq
 
     cursor.execute('''
     INSERT INTO voiture VALUES()
-    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
+    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	typev,	sieges,	espace,	prix_utlise,	prix_nouveau))
     conn.commit()
 
-def update_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+def update_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	typev,	sieges,	espace,	prix_utlise,	prix_nouveau):
     cursor.execute('''
     UPDATE INTO voiture VALUES()
-    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
+    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	typev,	sieges,	espace,	prix_utlise,	prix_nouveau))
     conn.commit()
 
-def delete_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau):
+def delete_voiture(nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	typev,	sieges,	espace,	prix_utlise,	prix_nouveau):
     cursor.execute('''
     DELETE FROM voiture VALUES()
-    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	type,	sieges,	espace,	prix_utlise,	prix_nouveau))
+    ''', (nom, transmission,	puissance,	kpl,	reservoir,	engin,	annee,	marque,	typev,	sieges,	espace,	prix_utlise,	prix_nouveau))
     conn.commit()
 
 
