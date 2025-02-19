@@ -1,10 +1,9 @@
 import sqlite3
 
-# Connect to the database
 conn = sqlite3.connect('BDD_Voiture.db')
 cursor = conn.cursor()
 
-# Class to represent a car
+
 class Voiture:
     def __init__(self, id, nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau):
         self.id = id
@@ -93,7 +92,7 @@ def select_voiture(filters):
     if filters.get('transmission'):
         query += " AND transmission = :transmission"
         params['transmission'] = filters['transmission']
-    # Add more filters as needed...
+
 
     cursor.execute(query, params)
     return cursor.fetchall()
@@ -118,16 +117,13 @@ def main():
                 filters = {}
                 filters['nom'] = input("Filtrer par nom [vide pour ignorer]: ") or None
                 filters['transmission'] = input("Filtrer par transmission [vide pour ignorer]: ") or None
-                # Collect other filter inputs...
                 results = select_voiture(filters)
                 for result in results:
                     print(result)
             elif option == '3':
-                # Example of adding a new car
                 new_voiture = Voiture(7, 'New Car', 'FWD', 150, 10, 50, 'Petrol', 2023, 'Brand', 'Sedan', 5, 500, 30000, 35000)
                 insert_voiture(new_voiture)
             elif option == '4':
-                # Example of updating a car
                 update_voiture(new_voiture)
             elif option == '5':
                 nom = input("Nom de la voiture à supprimer: ")
