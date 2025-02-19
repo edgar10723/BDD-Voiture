@@ -56,6 +56,7 @@ def insert_voiture(voiture):
             'prix_utilise': voiture.prix_utilise,
             'prix_nouveau': voiture.prix_nouveau
         })
+        
 
 def rm_voiture(nom):
     with conn:
