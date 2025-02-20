@@ -169,3 +169,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#BUGS TO FIX:    
+#FIX IGNORE GOES BACK TO MAIN
+#FIX AJOUTER
+#FIX METTRE A JOUR
+#FIX CLARITY OF INFORMATION
