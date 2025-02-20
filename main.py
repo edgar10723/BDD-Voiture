@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS voitures (
 )
 """)
 
+
+
 class Voiture:
     def __init__(self, id, nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau):
         self.id = id
@@ -52,8 +54,10 @@ def lien_fichier(db_file):
 def afficher_voitures():
     cursor.execute("SELECT * FROM voitures")
     voitures = cursor.fetchall()
+    bold = "\033[1m"
+    reset = "\033[0m"
     for voiture in voitures:
-        print(voiture[1,7,9])
+        print(f"{bold}{voiture[1]}{reset} | ",voiture[7],voiture[9])
 
 def insert_voiture(voiture):
     with conn:
@@ -146,6 +150,7 @@ def main():
             insert_voiture(voiture)
         
         while True:
+            print(" ")
             print("Menu:")
             print("1. Afficher les voitures")
             print("2. Filtrer les voitures")
@@ -154,6 +159,7 @@ def main():
             print("5. Supprimer une voiture")
             print("6. Quitter")
             option = input("Choisissez une option: ")
+            print(" ")
 
             if option == '1':
                 afficher_voitures()
