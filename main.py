@@ -57,7 +57,11 @@ def afficher_voitures():
     bold = "\033[1m"
     reset = "\033[0m"
     for voiture in voitures:
-        print(f"{bold}{voiture[1]}{reset} | ",voiture[7],voiture[9])
+        print(voiture[0],f"{bold}{voiture[1]}{reset} | ",voiture[7],voiture[9])
+
+def afficher_voiture_details(id):
+    cursor.execute("SELECT nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau FROM voitures WHERE id = :id", {'id': id})
+    voiture = cursor.fetchone()
 
 def insert_voiture(voiture):
     with conn:
@@ -163,6 +167,13 @@ def main():
 
             if option == '1':
                 afficher_voitures()
+                detail_option = input("Voulez-vous voir les détails d'une voiture? (oui/non): ").lower()
+                if detail_option == 'oui':
+                    id_input = input("Entrez l'ID de la voiture: ")
+                    if id_input.isdigit():
+                        afficher_voiture_details(id)
+                    else:
+                        print("Entrée invalide. Retour au menu.")
             elif option == '2':
                 filters = {}
                 filters['nom'] = input("Filtrer par nom [vide pour ignorer]: ") or None
@@ -192,4 +203,4 @@ if __name__ == "__main__":
 #FIX AJOUTER
 #FIX METTRE A JOUR
 #FIX CLARITY OF INFORMATION
-#FIX FILTER ONLY WORKS ON FIRST TWO
+#FIX FILTER ONLY WORKS ON FIRST TWO CAUSE WE ONLY PUT TWO
