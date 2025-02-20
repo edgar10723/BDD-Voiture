@@ -121,7 +121,6 @@ def main():
     connection = lien_fichier('BDD_Voiture.db')
     
     if connection:
-        # Insert initial data
         voitures = [
             Voiture(1, 'Ford Mustang', 'RWD', 450, 10, 60, 'Petrol', 2022, 'Ford', 'Coupe', 4, 300, 70000, 120000),
             Voiture(2, 'Honda CR V', 'AWD', 190, 12, 57, 'Petrol', 2025, 'Honda', 'SUV', 5, 700, 80000, 100000),
@@ -129,7 +128,18 @@ def main():
             Voiture(4, 'Toyota Camry', 'RWD', 203, 15, 60, 'Petrol', 2001, 'Toyota', 'Sedan', 5, 500, 40000, 80000),
             Voiture(5, 'Chevrolet Camaro', 'RWD', 455, 9, 63, 'Petrol', 2023, 'Chevrolet', 'Coupe', 4, 250, 75000, 130000),
             Voiture(6, 'Nissan Rogue', 'AWD', 170, 26, 54, 'Petrol', 2024, 'Nissan', 'SUV', 5, 800, 32000, 42000),
-            Voiture(7, 'Volkswagen Passat', 'FWD', 174, 29, 62, 'Petrol', 2020, 'Volkswagen', 'Sedan', 5, 400, 28000, 36000)
+            Voiture(7, 'Volkswagen Passat', 'FWD', 174, 29, 62, 'Petrol', 2020, 'Volkswagen', 'Sedan', 5, 400, 28000, 36000),
+            Voiture(8, 'Tesla Model 3', 'AWD', 283, 15, 75, 'Electric', 2022, 'Tesla', 'Sedan', 5, 425, 35000, 50000),
+            Voiture(9, 'Ford F-150', '4WD', 400, 10, 80, 'Petrol', 2023, 'Ford', 'Truck', 5, 1000, 40000, 60000),
+            Voiture(10, 'Hyundai Elantra', 'FWD', 147, 35, 50, 'Petrol', 2021, 'Hyundai', 'Sedan', 5, 400, 20000, 25000),
+            Voiture(11, 'Mazda CX-5', 'AWD', 187, 28, 56, 'Petrol', 2022, 'Mazda', 'SUV', 5, 800, 28000, 35000),
+            Voiture(12, 'Subaru Outback', 'AWD', 182, 26, 60, 'Petrol', 2021, 'Subaru', 'Wagon', 5, 750, 27000, 33000),
+            Voiture(13, 'Porsche 911', 'RWD', 379, 20, 64, 'Petrol', 2022, 'Porsche', 'Coupe', 2, 300, 80000, 120000),
+            Voiture(14, 'Jeep Wrangler', '4WD', 285, 22, 66, 'Petrol', 2023, 'Jeep', 'SUV', 4, 800, 35000, 45000),
+            Voiture(15, 'Kia Soul', 'FWD', 147, 31, 58, 'Petrol', 2022, 'Kia', 'Hatchback', 5, 400, 22000, 28000),
+            Voiture(16, 'Volvo XC90', 'AWD', 250, 24, 70, 'Petrol', 2023, 'Volvo', 'SUV', 7, 900, 55000, 75000),
+            Voiture(17, 'Chrysler Pacifica', 'FWD', 287, 22, 80, 'Petrol', 2022, 'Chrysler', 'Minivan', 7, 700, 35000, 45000),
+            Voiture(18, 'Dodge Charger', 'RWD', 370, 19, 60, 'Petrol', 2022, 'Dodge', 'Sedan', 5, 500, 32000, 42000)
         ]
         
         for voiture in voitures:
