@@ -53,7 +53,7 @@ def afficher_voitures():
     cursor.execute("SELECT * FROM voitures")
     voitures = cursor.fetchall()
     for voiture in voitures:
-        print(voiture)
+        print(voiture[1,7,9])
 
 def insert_voiture(voiture):
     with conn:
