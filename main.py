@@ -3,25 +3,25 @@ import sqlite3
 conn = sqlite3.connect('BDD_Voiture.db')
 cursor = conn.cursor()
 
-# Create the table if it doesn't exist
+
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS voitures (
-    id INTEGER PRIMARY KEY,
-    nom TEXT,
-    transmission TEXT,
-    puissance INTEGER,
-    kpl INTEGER,
-    reservoir INTEGER,
-    engin TEXT,
-    annee INTEGER,
-    marque TEXT,
-    typev TEXT,
-    sieges INTEGER,
-    espace INTEGER,
-    prix_utilise INTEGER,
-    prix_nouveau INTEGER
-)
-""")
+    CREATE TABLE IF NOT EXISTS voitures (
+        id INTEGER PRIMARY KEY,
+        nom TEXT,
+        transmission TEXT,
+        puissance INTEGER,
+        kpl INTEGER,
+        reservoir INTEGER,
+        engin TEXT,
+        annee INTEGER,
+        marque TEXT,
+        typev TEXT,
+        sieges INTEGER,
+        espace INTEGER,
+        prix_utilise INTEGER,
+        prix_nouveau INTEGER
+    )
+    """)
 
 
 
@@ -50,6 +50,7 @@ def lien_fichier(db_file):
     except sqlite3.Error as e:
         print(f"An error occurred: {e}")
         return None
+
 
 def afficher_voitures():
     cursor.execute("SELECT * FROM voitures")
@@ -125,6 +126,25 @@ def select_voiture(filters):
     cursor.execute(query, params)
     return cursor.fetchall()
 
+def add_voiture():
+    nouveau_nom = input("Nom du Voiture:")
+    nouveau_transmission = input("Nom du Voiture:")
+    nouveau_puissance = input("Nom du Voiture:")
+    nouveau_kpl = input("Nom du Voiture:")
+    nouveau_reservoir = input("Nom du Voiture:")
+    nouveau_engin = input("Nom du Voiture:")
+    nouveau_annee = input("Nom du Voiture:")
+    nouveau_marque = input("Nom du marque:")
+    nouveau_typev = input("Nom du Voiture:")
+    nouveau_sieges = input("Nom du Voiture:")
+    nouveau_espace = input("Espace:")
+    nouveau_prix_u = input("prix U")
+    nouveau_prix_n = input("prix n")
+
+    return Voiture(cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] + 1, nouveau_nom, nouveau_transmission, nouveau_puissance, nouveau_kpl, nouveau_reservoir, nouveau_engin,
+                   nouveau_annee, nouveau_marque, nouveau_typev, nouveau_sieges, nouveau_espace, nouveau_prix_u, nouveau_prix_n)
+
+
 def main():
     connection = lien_fichier('BDD_Voiture.db')
     
@@ -150,9 +170,12 @@ def main():
             Voiture(18, 'Dodge Charger', 'RWD', 370, 19, 60, 'Petrol', 2022, 'Dodge', 'Sedan', 5, 500, 32000, 42000)
         ]
         
-        for voiture in voitures:
-            insert_voiture(voiture)
-        
+        if cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] == 0:
+            print("yes")
+            for voiture in voitures:
+                insert_voiture(voiture)
+            print("done")
+            
         while True:
             print(" ")
             print("Menu:")
@@ -182,8 +205,9 @@ def main():
                 for result in results:
                     print(result)
             elif option == '3':
-                new_voiture = Voiture(8, 'New Car', 'FWD', 150, 10, 50, 'Petrol', 2023, 'Brand', 'Sedan', 5, 500, 30000, 35000)
-                insert_voiture(new_voiture)
+                n_voiture = add_voiture()
+                insert_voiture(n_voiture)
+
             elif option == '4':
                 update_voiture(new_voiture)
             elif option == '5':
@@ -200,7 +224,6 @@ if __name__ == "__main__":
 
 #BUGS TO FIX:    
 #FIX IGNORE GOES BACK TO MAIN
-#FIX AJOUTER
 #FIX METTRE A JOUR
 #FIX CLARITY OF INFORMATION
 #FIX FILTER ONLY WORKS ON FIRST TWO CAUSE WE ONLY PUT TWO
