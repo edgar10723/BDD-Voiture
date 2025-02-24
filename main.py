@@ -213,7 +213,7 @@ def main():
             elif option == '5':
                 nom = input("Nom de la voiture à supprimer: ")
                 rm_voiture(nom)
-            elif option == '6':
+            elif option == '6': 
                 break
             else:
                 print("Erreur: option invalide.")
