@@ -250,8 +250,7 @@ def main():
             elif option == '2':
                 filters = {}
                 filters['nom'] = input("Filtrer par nom [vide pour ignorer]: ") or None
-                filters['tr
-                ansmission'] = input("Filtrer par transmission [vide pour ignorer]: ") or None
+                filters['transmission'] = input("Filtrer par transmission [vide pour ignorer]: ") or None
                 results = select_voiture(filters)
                 for result in results:
                     print(result)
