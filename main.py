@@ -61,8 +61,32 @@ def afficher_voitures():
         print(voiture[0],f"{bold}{voiture[1]}{reset} | ",voiture[7],voiture[9])
 
 def afficher_voiture_details(id):
-    cursor.execute("SELECT nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau FROM voitures WHERE id = :id", {'id': id})
+    cursor.execute("""
+        SELECT nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau 
+        FROM voitures 
+        WHERE id = :id
+    """, {'id': id})
     voiture = cursor.fetchone()
+
+    if voiture:
+        print("\nDétails de la voiture:")
+        print("----------------------")
+        print(f"Nom: {voiture[0]}")
+        print(f"Transmission: {voiture[1]}")
+        print(f"Puissance (ch): {voiture[2]}")
+        print(f"Kilométrage par litre (kpl): {voiture[3]}")
+        print(f"Réservoir (L): {voiture[4]}")
+        print(f"Type d'engin: {voiture[5]}")
+        print(f"Année: {voiture[6]}")
+        print(f"Marque: {voiture[7]}")
+        print(f"Type de voiture: {voiture[8]}")
+        print(f"Nombre de sièges: {voiture[9]}")
+        print(f"Espace (L): {voiture[10]}")
+        print(f"Prix Utilisé ($): {voiture[11]}")
+        print(f"Prix Neuf ($): {voiture[12]}")
+        print("----------------------\n")
+    else:
+        print("Aucune voiture trouvée avec cet ID.")
 
 def insert_voiture(voiture):
     with conn:
@@ -127,22 +151,50 @@ def select_voiture(filters):
     return cursor.fetchall()
 
 def add_voiture():
-    nouveau_nom = input("Nom du Voiture:")
-    nouveau_transmission = input("Nom du Voiture:")
-    nouveau_puissance = input("Nom du Voiture:")
-    nouveau_kpl = input("Nom du Voiture:")
-    nouveau_reservoir = input("Nom du Voiture:")
-    nouveau_engin = input("Nom du Voiture:")
-    nouveau_annee = input("Nom du Voiture:")
-    nouveau_marque = input("Nom du marque:")
-    nouveau_typev = input("Nom du Voiture:")
-    nouveau_sieges = input("Nom du Voiture:")
-    nouveau_espace = input("Espace:")
-    nouveau_prix_u = input("prix U")
-    nouveau_prix_n = input("prix n")
+    def get_valid_input(prompt, input_type, options=None):
+        while True:
+            if options:
+                print(f"Options: {', '.join(options)}")
+            user_input = input(prompt)
+            try:
+                if input_type == int:
+                    user_input = int(user_input)
+                elif input_type == float:
+                    user_input = float(user_input)
+                if options and user_input not in options:
+                    print(f"Invalid input. Please choose one of: {', '.join(options)}")
+                else:
+                    return user_input
+            except ValueError:
+                print(f"Invalid input. Please enter a valid {input_type.__name__}.")
 
-    return Voiture(cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] + 1, nouveau_nom, nouveau_transmission, nouveau_puissance, nouveau_kpl, nouveau_reservoir, nouveau_engin,
-                   nouveau_annee, nouveau_marque, nouveau_typev, nouveau_sieges, nouveau_espace, nouveau_prix_u, nouveau_prix_n)
+    # Define valid options for fields with limited choices
+    valid_transmissions = ["FWD", "BWD", "AWD"]
+    valid_engins = ["Essence", "Diesel", "Hybride", "Électrique"]
+    valid_types_voiture = ["Sedan", "SUV", "Hatchback", "Cabriolet", "Berline"]
+
+    # Collect inputs
+    nouveau_nom = get_valid_input("Nom du Voiture: ", str)
+    nouveau_transmission = get_valid_input("Transmission (FWD, BWD, AWD): ", str, valid_transmissions)
+    nouveau_puissance = get_valid_input("Puissance: ", int)
+    nouveau_kpl = get_valid_input("Kilométrage: ", float)
+    nouveau_reservoir = get_valid_input("Reservoir: ", float)
+    nouveau_engin = get_valid_input("Engin: ", str, valid_engins)
+    nouveau_annee = get_valid_input("Année: ", int)
+    nouveau_marque = get_valid_input("Nom du marque: ", str)
+    nouveau_typev = get_valid_input("Type de voiture: ", str, valid_types_voiture)
+    nouveau_sieges = get_valid_input("Nombre de siège: ", int)
+    nouveau_espace = get_valid_input("Espace: ", float)
+    nouveau_prix_u = get_valid_input("Prix Utilisé: ", float)
+    nouveau_prix_n = get_valid_input("Prix Nouveau: ", float)
+
+    # Return Voiture object
+    return Voiture(
+        cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] + 1,
+        nouveau_nom, nouveau_transmission, nouveau_puissance, nouveau_kpl,
+        nouveau_reservoir, nouveau_engin, nouveau_annee, nouveau_marque,
+        nouveau_typev, nouveau_sieges, nouveau_espace, nouveau_prix_u, nouveau_prix_n
+    )
 
 
 def main():
@@ -171,10 +223,8 @@ def main():
         ]
         
         if cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] == 0:
-            print("yes")
             for voiture in voitures:
                 insert_voiture(voiture)
-            print("done")
             
         while True:
             print(" ")
@@ -193,14 +243,15 @@ def main():
                 detail_option = input("Voulez-vous voir les détails d'une voiture? (oui/non): ").lower()
                 if detail_option == 'oui':
                     id_input = input("Entrez l'ID de la voiture: ")
-                    if id_input.isdigit():
-                        afficher_voiture_details(id)
+                    if id_input.isdigit():  # Check if input is a valid integer
+                        afficher_voiture_details(int(id_input))
                     else:
-                        print("Entrée invalide. Retour au menu.")
+                        print("Entrée invalide. Veuillez entrer un ID valide.")
             elif option == '2':
                 filters = {}
                 filters['nom'] = input("Filtrer par nom [vide pour ignorer]: ") or None
-                filters['transmission'] = input("Filtrer par transmission [vide pour ignorer]: ") or None
+                filters['tr
+                ansmission'] = input("Filtrer par transmission [vide pour ignorer]: ") or None
                 results = select_voiture(filters)
                 for result in results:
                     print(result)
