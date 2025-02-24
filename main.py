@@ -168,12 +168,10 @@ def add_voiture():
             except ValueError:
                 print(f"Invalid input. Please enter a valid {input_type.__name__}.")
 
-    # Define valid options for fields with limited choices
     valid_transmissions = ["FWD", "BWD", "AWD"]
     valid_engins = ["Essence", "Diesel", "Hybride", "Électrique"]
     valid_types_voiture = ["Sedan", "SUV", "Hatchback", "Cabriolet", "Berline"]
 
-    # Collect inputs
     nouveau_nom = get_valid_input("Nom du Voiture: ", str)
     nouveau_transmission = get_valid_input("Transmission (FWD, BWD, AWD): ", str, valid_transmissions)
     nouveau_puissance = get_valid_input("Puissance: ", int)
@@ -188,7 +186,6 @@ def add_voiture():
     nouveau_prix_u = get_valid_input("Prix Utilisé: ", float)
     nouveau_prix_n = get_valid_input("Prix Nouveau: ", float)
 
-    # Return Voiture object
     return Voiture(
         cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] + 1,
         nouveau_nom, nouveau_transmission, nouveau_puissance, nouveau_kpl,
@@ -243,7 +240,7 @@ def main():
                 detail_option = input("Voulez-vous voir les détails d'une voiture? (oui/non): ").lower()
                 if detail_option == 'oui':
                     id_input = input("Entrez l'ID de la voiture: ")
-                    if id_input.isdigit():  # Check if input is a valid integer
+                    if id_input.isdigit():
                         afficher_voiture_details(int(id_input))
                     else:
                         print("Entrée invalide. Veuillez entrer un ID valide.")
