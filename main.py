@@ -3,7 +3,6 @@ import sqlite3
 conn = sqlite3.connect('BDD_Voiture.db')
 cursor = conn.cursor()
 
-
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS voitures (
         id INTEGER PRIMARY KEY,
@@ -21,9 +20,7 @@ cursor.execute("""
         prix_utilise INTEGER,
         prix_nouveau INTEGER
     )
-    """)
-
-
+""")
 
 class Voiture:
     def __init__(self, id, nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau):
@@ -42,235 +39,246 @@ class Voiture:
         self.prix_utilise = prix_utilise
         self.prix_nouveau = prix_nouveau
 
-def lien_fichier(db_file):
-    try:
-        connection = sqlite3.connect(db_file)
-        print("Connection to the database established.")
-        return connection
-    except sqlite3.Error as e:
-        print(f"An error occurred: {e}")
-        return None
-
-
 def afficher_voitures():
     cursor.execute("SELECT * FROM voitures")
     voitures = cursor.fetchall()
     bold = "\033[1m"
     reset = "\033[0m"
+    print(f"\n{bold}Liste des Voitures:{reset}")
+    print("-" * 50)
+    print(f"{bold}ID  | Nom                | Année | Type{reset}")
+    print("-" * 50)
     for voiture in voitures:
-        print(voiture[0],f"{bold}{voiture[1]}{reset} | ",voiture[7],voiture[9])
+        print(f"{voiture[0]:<4} | {voiture[1]:<18} | {voiture[7]} | {voiture[9]}")
+    print("-" * 50)
 
 def afficher_voiture_details(id):
     cursor.execute("""
-        SELECT nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau 
-        FROM voitures 
+        SELECT nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau
+        FROM voitures
         WHERE id = :id
     """, {'id': id})
     voiture = cursor.fetchone()
 
     if voiture:
-        print("\nDétails de la voiture:")
-        print("----------------------")
-        print(f"Nom: {voiture[0]}")
-        print(f"Transmission: {voiture[1]}")
-        print(f"Puissance (ch): {voiture[2]}")
-        print(f"Kilométrage par litre (kpl): {voiture[3]}")
-        print(f"Réservoir (L): {voiture[4]}")
-        print(f"Type d'engin: {voiture[5]}")
-        print(f"Année: {voiture[6]}")
-        print(f"Marque: {voiture[7]}")
-        print(f"Type de voiture: {voiture[8]}")
-        print(f"Nombre de sièges: {voiture[9]}")
-        print(f"Espace (L): {voiture[10]}")
-        print(f"Prix Utilisé ($): {voiture[11]}")
-        print(f"Prix Neuf ($): {voiture[12]}")
-        print("----------------------\n")
+        print("\n" + "=" * 50)
+        print(f"{'Détails de la Voiture':^50}")
+        print("=" * 50)
+        print(f"Nom:               {voiture[0]}")
+        print(f"Transmission:      {voiture[1]}")
+        print(f"Puissance (ch):    {voiture[2]}")
+        print(f"Kilométrage (kpl): {voiture[3]}")
+        print(f"Réservoir (L):     {voiture[4]}")
+        print(f"Type d'engin:      {voiture[5]}")
+        print(f"Année:             {voiture[6]}")
+        print(f"Marque:            {voiture[7]}")
+        print(f"Type de voiture:   {voiture[8]}")
+        print(f"Nombre de sièges:  {voiture[9]}")
+        print(f"Espace (L):        {voiture[10]}")
+        print(f"Prix Utilisé ($):  {voiture[11]}")
+        print(f"Prix Neuf ($):     {voiture[12]}")
+        print("=" * 50 + "\n")
     else:
         print("Aucune voiture trouvée avec cet ID.")
 
-def insert_voiture(voiture):
-    with conn:
-        cursor.execute("""
-            INSERT INTO voitures (id, nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau)
-            VALUES (:id, :nom, :transmission, :puissance, :kpl, :reservoir, :engin, :annee, :marque, :typev, :sieges, :espace, :prix_utilise, :prix_nouveau)
-        """, {
-            'id': voiture.id,
-            'nom': voiture.nom,
-            'transmission': voiture.transmission,
-            'puissance': voiture.puissance,
-            'kpl': voiture.kpl,
-            'reservoir': voiture.reservoir,
-            'engin': voiture.engin,
-            'annee': voiture.annee,
-            'marque': voiture.marque,
-            'typev': voiture.typev,
-            'sieges': voiture.sieges,
-            'espace': voiture.espace,
-            'prix_utilise': voiture.prix_utilise,
-            'prix_nouveau': voiture.prix_nouveau
-        })
+def filtrer_voitures():
+    filters = {}
+    filters['nom'] = input("Filtrer par nom [vide pour ignorer]: ") or None
+    filters['marque'] = input("Filtrer par marque [vide pour ignorer]: ") or None
+    filters['typev'] = input("Filtrer par type de voiture [vide pour ignorer]: ") or None
+    filters['transmission'] = input("Filtrer par transmission [vide pour ignorer]: ") or None
+    filters['engin'] = input("Filtrer par type d'engin [vide pour ignorer]: ") or None
+    filters['annee_min'] = input("Filtrer par année minimale [vide pour ignorer]: ") or None
+    filters['annee_max'] = input("Filtrer par année maximale [vide pour ignorer]: ") or None
+    filters['prix_utilise_min'] = input("Filtrer par prix utilisé minimal [vide pour ignorer]: ") or None
+    filters['prix_utilise_max'] = input("Filtrer par prix utilisé maximal [vide pour ignorer]: ") or None
 
-def rm_voiture(nom):
-    with conn:
-        cursor.execute("DELETE FROM voitures WHERE nom = :nom", {'nom': nom})
-
-def update_voiture(voiture):
-    with conn:
-        cursor.execute("""
-            UPDATE voitures SET nom = :nom, transmission = :transmission, puissance = :puissance, kpl = :kpl, reservoir = :reservoir, engin = :engin, annee = :annee, marque = :marque, typev = :typev, sieges = :sieges, espace = :espace, prix_utilise = :prix_utilise, prix_nouveau = :prix_nouveau
-            WHERE id = :id
-        """, {
-            'id': voiture.id,
-            'nom': voiture.nom,
-            'transmission': voiture.transmission,
-            'puissance': voiture.puissance,
-            'kpl': voiture.kpl,
-            'reservoir': voiture.reservoir,
-            'engin': voiture.engin,
-            'annee': voiture.annee,
-            'marque': voiture.marque,
-            'typev': voiture.typev,
-            'sieges': voiture.sieges,
-            'espace': voiture.espace,
-            'prix_utilise': voiture.prix_utilise,
-            'prix_nouveau': voiture.prix_nouveau
-        })
-
-def select_voiture(filters):
     query = "SELECT * FROM voitures WHERE 1=1"
-    params = {}
-    
-    if filters.get('nom'):
-        query += " AND nom = :nom"
-        params['nom'] = filters['nom']
-    if filters.get('transmission'):
-        query += " AND transmission = :transmission"
-        params['transmission'] = filters['transmission']
+    params = []
+
+    if filters['nom']:
+        query += " AND LOWER(nom) LIKE ?"
+        params.append(f"%{filters['nom'].lower()}%")
+    if filters['marque']:
+        query += " AND LOWER(marque) LIKE ?"
+        params.append(f"%{filters['marque'].lower()}%")
+    if filters['typev']:
+        query += " AND LOWER(typev) LIKE ?"
+        params.append(f"%{filters['typev'].lower()}%")
+    if filters['transmission']:
+        query += " AND LOWER(transmission) LIKE ?"
+        params.append(f"%{filters['transmission'].lower()}%")
+    if filters['engin']:
+        query += " AND LOWER(engin) LIKE ?"
+        params.append(f"%{filters['engin'].lower()}%")
+    if filters['annee_min']:
+        query += " AND annee >= ?"
+        params.append(int(filters['annee_min']))
+    if filters['annee_max']:
+        query += " AND annee <= ?"
+        params.append(int(filters['annee_max']))
+    if filters['prix_utilise_min']:
+        query += " AND prix_utilise >= ?"
+        params.append(float(filters['prix_utilise_min']))
+    if filters['prix_utilise_max']:
+        query += " AND prix_utilise <= ?"
+        params.append(float(filters['prix_utilise_max']))
 
     cursor.execute(query, params)
-    return cursor.fetchall()
+    results = cursor.fetchall()
 
-def add_voiture():
-    def get_valid_input(prompt, input_type, options=None):
-        while True:
-            if options:
-                print(f"Options: {', '.join(options)}")
-            user_input = input(prompt)
-            try:
-                if input_type == int:
-                    user_input = int(user_input)
-                elif input_type == float:
-                    user_input = float(user_input)
-                if options and user_input not in options:
-                    print(f"Invalid input. Please choose one of: {', '.join(options)}")
-                else:
-                    return user_input
-            except ValueError:
-                print(f"Invalid input. Please enter a valid {input_type.__name__}.")
+    if results:
+        print("\n" + "=" * 50)
+        print(f"{'Résultats de la Recherche':^50}")
+        print("=" * 50)
+        for result in results:
+            print(f"ID: {result[0]} | Nom: {result[1]} | Année: {result[7]} | Type: {result[9]}")
+        print("=" * 50)
 
-    valid_transmissions = ["FWD", "BWD", "AWD"]
-    valid_engins = ["Essence", "Diesel", "Hybride", "Électrique"]
-    valid_types_voiture = ["Sedan", "SUV", "Hatchback", "Cabriolet", "Berline"]
+        detail_option = input("Voulez-vous voir les détails d'une voiture? (oui/non): ").lower()
+        if detail_option == 'oui':
+            id_input = input("Entrez l'ID de la voiture: ")
+            if id_input.isdigit():
+                afficher_voiture_details(int(id_input))
+            else:
+                print("Entrée invalide. Veuillez entrer un ID valide.")
+    else:
+        print("Aucun résultat trouvé.")
 
-    nouveau_nom = get_valid_input("Nom du Voiture: ", str)
-    nouveau_transmission = get_valid_input("Transmission (FWD, BWD, AWD): ", str, valid_transmissions)
-    nouveau_puissance = get_valid_input("Puissance: ", int)
-    nouveau_kpl = get_valid_input("Kilométrage: ", float)
-    nouveau_reservoir = get_valid_input("Reservoir: ", float)
-    nouveau_engin = get_valid_input("Engin: ", str, valid_engins)
-    nouveau_annee = get_valid_input("Année: ", int)
-    nouveau_marque = get_valid_input("Nom du marque: ", str)
-    nouveau_typev = get_valid_input("Type de voiture: ", str, valid_types_voiture)
-    nouveau_sieges = get_valid_input("Nombre de siège: ", int)
-    nouveau_espace = get_valid_input("Espace: ", float)
-    nouveau_prix_u = get_valid_input("Prix Utilisé: ", float)
-    nouveau_prix_n = get_valid_input("Prix Nouveau: ", float)
+def ajouter_voiture():
+    nom = input("Nom du Voiture: ")
+    transmission = input("Transmission: ")
+    puissance = int(input("Puissance: "))
+    kpl = float(input("Kilométrage: "))
+    reservoir = float(input("Réservoir: "))
+    engin = input("Type d'engin: ")
+    annee = int(input("Année: "))
+    marque = input("Marque: ")
+    typev = input("Type de voiture: ")
+    sieges = int(input("Nombre de sièges: "))
+    espace = float(input("Espace: "))
+    prix_utilise = float(input("Prix Utilisé: "))
+    prix_nouveau = float(input("Prix Neuf: "))
 
-    return Voiture(
-        cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] + 1,
-        nouveau_nom, nouveau_transmission, nouveau_puissance, nouveau_kpl,
-        nouveau_reservoir, nouveau_engin, nouveau_annee, nouveau_marque,
-        nouveau_typev, nouveau_sieges, nouveau_espace, nouveau_prix_u, nouveau_prix_n
-    )
+    cursor.execute("""
+        INSERT INTO voitures (nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (nom, transmission, puissance, kpl, reservoir, engin, annee, marque, typev, sieges, espace, prix_utilise, prix_nouveau))
+    conn.commit()
+    print("Voiture ajoutée avec succès!")
 
+def mettre_a_jour_voiture():
+    id_input = input("Entrez l'ID de la voiture à mettre à jour: ")
+    if id_input.isdigit():
+        afficher_voiture_details(int(id_input))
+        nom = input("Nouveau nom [vide pour ignorer]: ") or None
+        transmission = input("Nouvelle transmission [vide pour ignorer]: ") or None
+        puissance = input("Nouvelle puissance [vide pour ignorer]: ") or None
+        kpl = input("Nouveau kilométrage [vide pour ignorer]: ") or None
+        reservoir = input("Nouveau réservoir [vide pour ignorer]: ") or None
+        engin = input("Nouveau type d'engin [vide pour ignorer]: ") or None
+        annee = input("Nouvelle année [vide pour ignorer]: ") or None
+        marque = input("Nouvelle marque [vide pour ignorer]: ") or None
+        typev = input("Nouveau type de voiture [vide pour ignorer]: ") or None
+        sieges = input("Nouveau nombre de sièges [vide pour ignorer]: ") or None
+        espace = input("Nouvel espace [vide pour ignorer]: ") or None
+        prix_utilise = input("Nouveau prix utilisé [vide pour ignorer]: ") or None
+        prix_nouveau = input("Nouveau prix neuf [vide pour ignorer]: ") or None
+
+        query = "UPDATE voitures SET "
+        params = []
+        if nom:
+            query += "nom = ?, "
+            params.append(nom)
+        if transmission:
+            query += "transmission = ?, "
+            params.append(transmission)
+        if puissance:
+            query += "puissance = ?, "
+            params.append(int(puissance))
+        if kpl:
+            query += "kpl = ?, "
+            params.append(float(kpl))
+        if reservoir:
+            query += "reservoir = ?, "
+            params.append(float(reservoir))
+        if engin:
+            query += "engin = ?, "
+            params.append(engin)
+        if annee:
+            query += "annee = ?, "
+            params.append(int(annee))
+        if marque:
+            query += "marque = ?, "
+            params.append(marque)
+        if typev:
+            query += "typev = ?, "
+            params.append(typev)
+        if sieges:
+            query += "sieges = ?, "
+            params.append(int(sieges))
+        if espace:
+            query += "espace = ?, "
+            params.append(float(espace))
+        if prix_utilise:
+            query += "prix_utilise = ?, "
+            params.append(float(prix_utilise))
+        if prix_nouveau:
+            query += "prix_nouveau = ?, "
+            params.append(float(prix_nouveau))
+
+        query = query.rstrip(", ")
+
+        query += " WHERE id = ?"
+        params.append(int(id_input))
+
+        cursor.execute(query, params)
+        conn.commit()
+        print("Voiture mise à jour avec succès!")
+    else:
+        print("Entrée invalide. Veuillez entrer un ID valide.")
+
+def supprimer_voiture():
+    nom = input("Nom de la voiture à supprimer: ")
+    cursor.execute("DELETE FROM voitures WHERE nom = ?", (nom,))
+    conn.commit()
+    print("Voiture supprimée avec succès!")
 
 def main():
-    connection = lien_fichier('BDD_Voiture.db')
-    
-    if connection:
-        voitures = [
-            Voiture(1, 'Ford Mustang', 'RWD', 450, 10, 60, 'Petrol', 2022, 'Ford', 'Coupe', 4, 300, 70000, 120000),
-            Voiture(2, 'Honda CR V', 'AWD', 190, 12, 57, 'Petrol', 2025, 'Honda', 'SUV', 5, 700, 80000, 100000),
-            Voiture(3, 'BMW X5', 'RWD', 335, 11, 83, 'Petrol', 2008, 'BMW', 'SUV', 5, 650, 100000, 180000),
-            Voiture(4, 'Toyota Camry', 'RWD', 203, 15, 60, 'Petrol', 2001, 'Toyota', 'Sedan', 5, 500, 40000, 80000),
-            Voiture(5, 'Chevrolet Camaro', 'RWD', 455, 9, 63, 'Petrol', 2023, 'Chevrolet', 'Coupe', 4, 250, 75000, 130000),
-            Voiture(6, 'Nissan Rogue', 'AWD', 170, 26, 54, 'Petrol', 2024, 'Nissan', 'SUV', 5, 800, 32000, 42000),
-            Voiture(7, 'Volkswagen Passat', 'FWD', 174, 29, 62, 'Petrol', 2020, 'Volkswagen', 'Sedan', 5, 400, 28000, 36000),
-            Voiture(8, 'Tesla Model 3', 'AWD', 283, 15, 75, 'Electric', 2022, 'Tesla', 'Sedan', 5, 425, 35000, 50000),
-            Voiture(9, 'Ford F-150', '4WD', 400, 10, 80, 'Petrol', 2023, 'Ford', 'Truck', 5, 1000, 40000, 60000),
-            Voiture(10, 'Hyundai Elantra', 'FWD', 147, 35, 50, 'Petrol', 2021, 'Hyundai', 'Sedan', 5, 400, 20000, 25000),
-            Voiture(11, 'Mazda CX-5', 'AWD', 187, 28, 56, 'Petrol', 2022, 'Mazda', 'SUV', 5, 800, 28000, 35000),
-            Voiture(12, 'Subaru Outback', 'AWD', 182, 26, 60, 'Petrol', 2021, 'Subaru', 'Wagon', 5, 750, 27000, 33000),
-            Voiture(13, 'Porsche 911', 'RWD', 379, 20, 64, 'Petrol', 2022, 'Porsche', 'Coupe', 2, 300, 80000, 120000),
-            Voiture(14, 'Jeep Wrangler', '4WD', 285, 22, 66, 'Petrol', 2023, 'Jeep', 'SUV', 4, 800, 35000, 45000),
-            Voiture(15, 'Kia Soul', 'FWD', 147, 31, 58, 'Petrol', 2022, 'Kia', 'Hatchback', 5, 400, 22000, 28000),
-            Voiture(16, 'Volvo XC90', 'AWD', 250, 24, 70, 'Petrol', 2023, 'Volvo', 'SUV', 7, 900, 55000, 75000),
-            Voiture(17, 'Chrysler Pacifica', 'FWD', 287, 22, 80, 'Petrol', 2022, 'Chrysler', 'Minivan', 7, 700, 35000, 45000),
-            Voiture(18, 'Dodge Charger', 'RWD', 370, 19, 60, 'Petrol', 2022, 'Dodge', 'Sedan', 5, 500, 32000, 42000)
-        ]
-        
-        if cursor.execute("SELECT COUNT() FROM voitures").fetchone()[0] == 0:
-            for voiture in voitures:
-                insert_voiture(voiture)
-            
-        while True:
-            print(" ")
-            print("Menu:")
-            print("1. Afficher les voitures")
-            print("2. Filtrer les voitures")
-            print("3. Ajouter une voiture")
-            print("4. Mettre à jour une voiture")
-            print("5. Supprimer une voiture")
-            print("6. Quitter")
-            option = input("Choisissez une option: ")
-            print(" ")
+    while True:
+        print("\n" + "=" * 50)
+        print(f"{'Menu Principal':^50}")
+        print("=" * 50)
+        print("1. Afficher les voitures")
+        print("2. Filtrer les voitures")
+        print("3. Ajouter une voiture")
+        print("4. Mettre à jour une voiture")
+        print("5. Supprimer une voiture")
+        print("6. Quitter")
+        print("=" * 50)
+        option = input("Choisissez une option: ")
 
-            if option == '1':
-                afficher_voitures()
-                detail_option = input("Voulez-vous voir les détails d'une voiture? (oui/non): ").lower()
-                if detail_option == 'oui':
-                    id_input = input("Entrez l'ID de la voiture: ")
-                    if id_input.isdigit():
-                        afficher_voiture_details(int(id_input))
-                    else:
-                        print("Entrée invalide. Veuillez entrer un ID valide.")
-            elif option == '2':
-                filters = {}
-                filters['nom'] = input("Filtrer par nom [vide pour ignorer]: ") or None
-                filters['transmission'] = input("Filtrer par transmission [vide pour ignorer]: ") or None
-                results = select_voiture(filters)
-                for result in results:
-                    print(result)
-            elif option == '3':
-                n_voiture = add_voiture()
-                insert_voiture(n_voiture)
-
-            elif option == '4':
-                update_voiture(new_voiture)
-            elif option == '5':
-                nom = input("Nom de la voiture à supprimer: ")
-                rm_voiture(nom)
-            elif option == '6': 
-                break
-            else:
-                print("Erreur: option invalide.")
+        if option == '1':
+            afficher_voitures()
+            detail_option = input("Voulez-vous voir les détails d'une voiture? (oui/non): ").lower()
+            if detail_option == 'oui':
+                id_input = input("Entrez l'ID de la voiture: ")
+                if id_input.isdigit():
+                    afficher_voiture_details(int(id_input))
+                else:
+                    print("Entrée invalide. Veuillez entrer un ID valide.")
+        elif option == '2':
+            filtrer_voitures()
+        elif option == '3':
+            ajouter_voiture()
+        elif option == '4':
+            mettre_a_jour_voiture()
+        elif option == '5':
+            supprimer_voiture()
+        elif option == '6':
+            break
+        else:
+            print("Erreur: option invalide.")
 
 if __name__ == "__main__":
     main()
-
-
-#BUGS TO FIX:    
-#FIX IGNORE GOES BACK TO MAIN
-#FIX METTRE A JOUR
-#FIX CLARITY OF INFORMATION
-#FIX FILTER ONLY WORKS ON FIRST TWO CAUSE WE ONLY PUT TWO
